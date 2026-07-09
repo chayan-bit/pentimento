@@ -60,8 +60,9 @@ We have written down the limits up front, because a security tool that overclaim
    Turning evidence into a claim is a job for humans with lawyers.
 
 3. **Naive diffing is known to be broken, so we don't do it.**
-   Weight space has large symmetry groups - neuron permutations, scaling, rotations in the residual stream - under which two functionally identical checkpoints look numerically unrelated.
-   Diff and fingerprint both run on top of a **canonicalization pass** (alignment in the spirit of Git Re-Basin) and prefer **invariant features** (singular value spectra, activation-free spectral signatures) over raw parameter comparison.
+   Weight space has large symmetry groups - neuron/head permutations, scaling, and full orthogonal rotations of the residual stream (the computational-invariance result underlying SliceGPT) - under which two functionally identical checkpoints look numerically unrelated.
+   Permutation-only alignment (Git Re-Basin-style) is provably insufficient for transformers, so Pentimento's primary path is **invariant features** (singular value spectra, invariant attention-product signatures, CKA) that quotient out the symmetry group analytically, with explicit alignment as a residual-tagged best-effort mode.
+   The full symmetry catalog, with per-claim verification status, is in [docs/architecture.md](docs/architecture.md).
 
 4. **"Statistical outlier" requires a reference population, not vibes.**
    Anomaly detection is defined strictly relative to empirical reference corpora built from public-hub checkpoints of the same architecture, shipped with measured false-positive rates.

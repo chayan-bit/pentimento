@@ -33,6 +33,16 @@ Pentimento turns them into pluggable backends behind one CLI, one report format,
 - **[mergekit](https://github.com/arcee-ai/mergekit)** (Arcee) - merging and LoRA *extraction* (`mergekit-extract-lora`). Extraction is the constructive twin of our low-rank graft *detection*; we share math, not purpose.
 - **[ckpt](https://github.com/stef41/ckpt)** - checkpoint inspection/diff/validation without GPU loading. Closest existing utility in spirit; scope is per-tensor numeric diffing and file validation, without canonicalization, fingerprinting, signatures, or calibrated reporting.
 
+## Symmetry, alignment, and numerics (foundations of the canon/WIR design)
+
+- **Git Re-Basin** (Ainsworth et al., [arXiv:2209.04836](https://arxiv.org/abs/2209.04836)) - permutation-alignment via weight matching; validated on CNN/ResNet-scale models. We take the LAP machinery and the symmetry framing, and explicitly *do not* inherit its scope claim for transformers.
+- **SliceGPT** (Ashkboos et al., ICLR 2024, [arXiv:2401.15024](https://arxiv.org/abs/2401.15024)) - the computational-invariance theorem: RMSNorm transformers are exactly invariant to per-block orthogonal rotation of the residual stream (LayerNorm convertible to RMSNorm form). This is the reason permutation-only canonicalization is insufficient and invariant features are our primary path.
+- **Beyond the Permutation Symmetry of Transformers** ([arXiv:2502.00264](https://arxiv.org/abs/2502.00264)) and **Generalized Linear Mode Connectivity for Transformers** ([arXiv:2506.22712](https://arxiv.org/abs/2506.22712)) - rotation-aware alignment for transformers is current research; grounds our decision to tag alignment-mode findings with residuals.
+- **CKA similarity** (Kornblith et al., [arXiv:1905.00414](https://arxiv.org/abs/1905.00414)) - orthogonal- and scale-invariant similarity; the metric inside AWM's pipeline.
+- **Randomized SVD** (Halko, Martinsson, Tropp, [arXiv:0909.4061](https://arxiv.org/abs/0909.4061)) and **single-view sketching** (Tropp et al., [2017](https://users.cms.caltech.edu/~jtropp/reports/TYUC17-Randomized-Single-View-TR.pdf)) - streaming spectra with a priori error bounds, for tensors too large for exact per-tensor SVD.
+- **Spectra of transformer weights under quantization/compression** ([Small Singular Values Matter, arXiv:2410.17770](https://arxiv.org/abs/2410.17770); [LQER, arXiv:2402.02446](https://arxiv.org/abs/2402.02446)) - LLM weight spectra are heavy-tailed and quantization distorts the tail; grounds the per-feature quantization validity envelopes.
+- **[fickling](https://github.com/trailofbits/fickling)** (Trail of Bits) - static pickle decompilation/analysis; the existence proof for our metadata-only, never-execute pickle frontend.
+
 ## Interpretability (dynamic sibling)
 
 Mechanistic interpretability (TransformerLens, SAE tooling, activation patching) answers deeper questions than any static method, but requires running the model, scales poorly to hub-wide screening, and is aimed at researchers.
